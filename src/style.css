@@ -22,6 +22,10 @@ body {
     transition: all 1s ease-out;
 }
 
+.header:hover {
+    cursor: pointer;
+}
+
 .sidebar {
     background-color: brown;
     color: white;
@@ -70,27 +74,29 @@ img {
 
 img:hover {
     transform: translateY(-1px);
+    cursor: pointer;
 }
 
 .main-content {
     background-color: thistle;
     height: 90vh;
-    display: flex;
-    flex-direction: row-reverse;
-    align-items: flex-end;
 }
 
 .new-todo {
     margin: 35px;
+    position: fixed;
+    bottom: 5vh;
+    right: 5vw;
 }
 
 .new-todo:hover {
     border: solid 2px white;
     padding: 7px;
     background-color: brown;
+    cursor: pointer;
 }
 
-button {
+.new-todo-button {
     height: 100px;
     width:100px;
     border-radius: 50%;
@@ -99,12 +105,28 @@ button {
     background-size: contain;
 }
 
+.new-todo-button:hover {
+    cursor: pointer;
+}
+
 p {
     color: white;
     font-size: 20px;
     display: grid;
     place-content: center;
     border: solid 2px white;
+}
+
+.pop-up-form {
+    flex-direction: column;
+    display: none;
+    position: fixed;
+    bottom: 35vh;
+    right: 35vw;
+    padding: 10px;
+    border-radius: 7px;
+    background-color: brown;
+    color: white;
 }
 
 .footer {
