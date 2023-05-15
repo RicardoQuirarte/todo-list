@@ -16,13 +16,38 @@
         <div class="priority">
             <img src="./red.svg" alt="top-priority" title="Top-priority">
             <img src="./yellow.svg" alt="mid-priority" title="Mid-priority">
-            <img src="./green.svg" alt="none-priority" title="None-priority">
+            <img src="./green.svg" alt="low-priority" title="Low-priority">
         </div>
     </div>
     <div class="main-content">
+        <div class="pop-up-form">
+            <p>New Todo</p>
+
+            <label for="title">Title</label>
+            <input type="text" id="title" class="required">
+
+            <label for="description">Desciption</label>
+            <input type="text" id="description" class="required">
+
+            <label for="date">Date</label>
+            <input type="text" id="date" class="required">
+
+            <fieldset>
+                <legend>Priority</legend>
+                <label for="top-priority">Top priority</label>
+                <input type="radio" id="top" class="required" name="priority_type" value="top" style="accent-color: red;">
+                <label for="mid-priority">Mid priority</label>
+                <input type="radio" id="mid" class="required" name="priority_type" value="mid" style="accent-color: orange;">
+                <label for="low-priority">Low priority</label>
+                <input type="radio" id="low" class="required" name="priority_type" value="low" style="accent-color: green;">
+            </fieldset>
+
+            <button class="add-todo">Add todo</button>
+            <button class="cancel-button">Close</button>
+    </div>
         <div class="new-todo">
             <p>New Todo</p>
-            <button></button>
+            <button class="new-todo-button"></button>
         </div>
     </div>
     <pre class="footer">Icons by <a href="https://www.svgrepo.com/">SVGRepo</a>  - develop by <a href="https://github.com/RicardoQuirarte">Ricardo Quirarte</a></pre>
