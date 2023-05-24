@@ -1,152 +1,209 @@
 @font-face {
-    font-family: 'MyFont';
-    src: url(./assets/Staatliches-Regular.ttf);
+  font-family: "MyFont";
+  src: url(./assets/Staatliches-Regular.ttf);
 }
 
 body {
-    display: grid;
-    grid-template-columns: 2fr 8fr;
-    margin: 0;
-    font-family: 'MyFont';
+  display: grid;
+  grid-template-columns: 2fr 8fr;
+  margin: 0;
+  font-family: "MyFont";
 }
 
 .header {
-    grid-column: 1/3;
-    background: rgb(255,255,255);
-    background: linear-gradient(241deg, rgba(255,255,255,1) 0%, rgba(252,70,107,1) 100%);
-    height: 10vh;
-    color: white;
-    font-size: 50px;
-    display: grid;
-    place-content: center;
-    transition: all 1s ease-out;
+  grid-column: 1/3;
+  background: rgb(255, 255, 255);
+  background: linear-gradient(
+    241deg,
+    rgba(255, 255, 255, 1) 0%,
+    rgba(252, 70, 107, 1) 100%
+  );
+  height: 10vh;
+  color: white;
+  font-size: 50px;
+  display: grid;
+  place-content: center;
+  transition: all 1s ease-out;
 }
 
 .header:hover {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .sidebar {
-    background-color: brown;
-    color: white;
-    height: 90vh;
-    font-size: 22px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-around;
-
+  background-color: brown;
+  color: white;
+  height: 90vh;
+  font-size: 22px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
 }
 
 .task-buttons {
-    border: solid 2px white;
-    padding: 5px;
+  border: solid 2px white;
+  padding: 5px;
 }
 
 .task-buttons:hover {
-    background-color: white;
-    border: solid 2px black;
-    color: black;
-    cursor: pointer;
+  background-color: white;
+  border: solid 2px black;
+  color: black;
+  cursor: pointer;
 }
 
 .projects {
-    display: grid;
-    grid-template-columns: 55px 55px;
-    place-content: center;
+  display: grid;
+  grid-template-columns: 55px 55px;
+  place-content: center;
 }
 
 .icons {
-    width: 40px;
-    height: 40px;
+  width: 40px;
+  height: 40px;
 }
 
 .priority {
-    display: flex;
-    justify-content: space-around;
-    flex-wrap: wrap;
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
 }
 
 img {
-    width: 75px;
-    height: 75px;
+  width: 75px;
+  height: 75px;
 }
 
 img:hover {
-    transform: translateY(-1px);
-    cursor: pointer;
+  transform: translateY(-2px);
+  cursor: pointer;
 }
 
 .main-content {
-    background-color: thistle;
-    height: 90vh;
+  background-color: thistle;
+  height: 90vh;
 }
 
 .new-todo {
-    margin: 35px;
-    position: fixed;
-    bottom: 5vh;
-    right: 5vw;
+  margin: 35px;
+  position: fixed;
+  bottom: 5vh;
+  right: 5vw;
 }
 
 .new-todo:hover {
-    border: solid 2px white;
-    padding: 7px;
-    background-color: brown;
-    cursor: pointer;
+  border: solid 2px white;
+  padding: 7px;
+  background-color: brown;
+  cursor: pointer;
 }
 
 .new-todo-button {
-    height: 100px;
-    width:100px;
-    border-radius: 50%;
-    border-style: none;
-    background-image: url(/src/assets/plus.svg);
-    background-size: contain;
+  height: 100px;
+  width: 100px;
+  border-radius: 50%;
+  border-style: none;
+  background-image: url(/src/assets/plus.svg);
+  background-size: contain;
 }
 
 .new-todo-button:hover {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 p {
-    color: white;
-    font-size: 20px;
-    display: grid;
-    place-content: center;
-    border: solid 2px white;
+  color: white;
+  font-size: 20px;
+  display: grid;
+  place-content: center;
+  border: solid 2px white;
 }
 
 .pop-up-form {
-    flex-direction: column;
-    display: none;
-    position: fixed;
-    bottom: 35vh;
-    right: 35vw;
-    padding: 10px;
-    border-radius: 7px;
-    background-color: brown;
-    color: white;
+  flex-direction: column;
+  display: none;
+  position: fixed;
+  bottom: 30vh;
+  right: 35vw;
+  padding: 10px;
+  border-radius: 7px;
+  background-color: rgb(150, 50, 50);
+  color: white;
+}
+
+#description {
+  height: 10vh;
+}
+
+.pop-up-button {
+  margin-top: 10px;
+  height: 45px;
+  border: solid 1px white;
+  border-radius: 12px;
+  color: white;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.add-todo {
+  background-color: #9ED368;
+}
+
+.add-todo:hover {
+  background-color: #91dd45;
+}
+
+.cancel-button {
+  background-color: #FC4D71;
+}
+
+.cancel-button:hover {
+  background-color: #ff1544;
+}
+
+.each-todo {
+  background-color: white;
+  margin: 40px;
+  padding: 10px;
+  display: flex;
+  justify-content: space-around;
+}
+
+.red {
+  border: solid 3px #ef4444;
+}
+
+.orange {
+  border: solid 3px #facc15;
+}
+
+.green {
+  border: solid 3px #22c55e;
+}
+
+.line {
+  text-decoration: line-through;
 }
 
 .footer {
-    grid-column: 1/3;
-    height:3vh;
-    font-size: 20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  grid-column: 1/3;
+  height: 3vh;
+  font-size: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 pre {
-    font-family: 'MyFont';
+  font-family: "MyFont";
 }
 
 a {
-    color: black;
-    text-decoration: none;
+  color: black;
+  text-decoration: none;
 }
 
 a:hover {
-    color: hotpink;
+  color: hotpink;
 }
