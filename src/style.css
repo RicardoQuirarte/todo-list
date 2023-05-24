@@ -162,24 +162,81 @@ p {
   background-color: #ff1544;
 }
 
-.each-todo {
+.grandpa-todo {
+  display: flex;
+  justify-content: space-between;
   background-color: white;
-  margin: 40px;
-  padding: 10px;
+  height: 8vh;
+  margin: 30px;
+}
+
+.todos-side {
   display: flex;
   justify-content: space-around;
+  align-items: center;
+  width: 33%;
+}
+
+.buttons-side {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 33%;
+}
+
+.todo-buttons {
+  height: 45px;
+  width: 65px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid black;
+  background-color: white;
+}
+
+.todo-buttons:hover {
+  color: white;
+  cursor: pointer;
+}
+
+.edite {
+  border-color: #22c55e;
+  color: #22c55e;
+}
+
+.edite:hover {
+  background-color: #22c55e;
+}
+
+.details {
+  border-color: #facc15;
+  color: #facc15;
+}
+
+
+.details:hover {
+  background-color: #facc15;
+}
+
+.delete {
+  border-color: #ff1544;
+  color: #ff1544;
+}
+
+.delete:hover {
+  background-color: #ff1544;
 }
 
 .red {
-  border: solid 3px #ef4444;
+  border: solid 2px #ef4444;
 }
 
 .orange {
-  border: solid 3px #facc15;
+  border: solid 2px #facc15;
 }
 
 .green {
-  border: solid 3px #22c55e;
+  border: solid 2px #22c55e;
 }
 
 .line {
@@ -188,7 +245,7 @@ p {
 
 .footer {
   grid-column: 1/3;
-  height: 3vh;
+  height: 2vh;
   font-size: 20px;
   display: flex;
   justify-content: center;
