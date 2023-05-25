@@ -97,6 +97,7 @@ img:hover {
   padding: 7px;
   background-color: brown;
   cursor: pointer;
+  color: white;
 }
 
 .new-todo-button {
@@ -113,11 +114,10 @@ img:hover {
 }
 
 p {
-  color: white;
   font-size: 20px;
   display: grid;
   place-content: center;
-  border: solid 2px white;
+  border: solid 2px;
 }
 
 .pop-up-form {

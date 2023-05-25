@@ -10,19 +10,31 @@ import { format } from 'date-fns'
 const todos = [];
 
 // Get todo from input
+
+
+
 function getTodoFromInput() {
   const title = document.querySelector('#title').value;
   const description = document.querySelector('#description').value;
   const newDate = new Date(`${document.querySelector('#due-Date').value}T00:00`);
   const dueDate = format(newDate, 'dd/MMM/yy');
   const priority = document.querySelector('input[name="priority"]:checked').value;
-  return {title, description, dueDate, priority};
+  const id = Date.now();
+
+  return {title, description, dueDate, priority, id};
 }
 
 // Display todos
 const todosDiv = document.querySelector('.todos');
 
+function cleanHtml() {
+  while(todosDiv.firstChild) {
+    todosDiv.removeChild(todosDiv.firstChild);
+  }
+}
+
 function displayTodos() {
+  cleanHtml();
   todos.forEach( userTodo => {
     const grandpaDiv = document.createElement('div');
     grandpaDiv.classList.add('grandpa-todo');
@@ -68,6 +80,18 @@ function displayTodos() {
     erase.classList.add('todo-buttons', 'delete');
     motherDiv.appendChild(erase);
 
+    edite.addEventListener('click', () => {
+      
+    });
+    details.addEventListener('click', () => {
+      
+    });
+    erase.addEventListener('click', () => {
+      const index = todos.indexOf(userTodo.id);
+      todos.splice(index, 1);
+      console.log(todos);
+    });
+
     grandpaDiv.appendChild(fatherDiv);
     grandpaDiv.appendChild(motherDiv);
     todosDiv.appendChild(grandpaDiv);
@@ -79,21 +103,24 @@ const newTodo = document.querySelector(".new-todo");
 const popUpForm = document.querySelector(".pop-up-form");
 const cancelButton = document.querySelector(".cancel-button");
 const addButton = document.querySelector('.add-todo');
-
+const form = document.querySelector('#form');
 
 function popUp() {
   popUpForm.style.display = "flex";
 }
 
-function closePopUP() {
+function closePopUP(e) {
+  e.preventDefault();
   popUpForm.style.display = "none";
 }
 
-function addTodo() {
+function addTodo(e) {
+  e.preventDefault();
   const userTodo = getTodoFromInput();
   todos.push(userTodo);
   popUpForm.style.display = "none";
   displayTodos();
+  form.reset();
   console.log(todos);
 }
 
@@ -105,19 +132,13 @@ addButton.addEventListener('click', addTodo);
 
 
 
+
+
+
+
+
+
 // // Changing todo priority
-
-// const topPriority = red;
-// const midPriority = orange;
-// const lightProprity = green;
-
-// function changePriority() {
-//     if() {
-
-//     }
-// }
-
-
 
 
 // // Create new Project
