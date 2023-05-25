@@ -7,12 +7,9 @@ import { format } from 'date-fns'
 //   return { title, description, dueDate, priority };
 // }
 
-const todos = [];
+let todos = [];
 
 // Get todo from input
-
-
-
 function getTodoFromInput() {
   const title = document.querySelector('#title').value;
   const description = document.querySelector('#description').value;
@@ -33,14 +30,47 @@ function cleanHtml() {
   }
 }
 
+function deleteTodo(id) {
+  todos = todos.filter(userTodo => userTodo.id !== id);
+  cleanHtml();
+  displayTodos();
+}
+
+// function edite() {
+
+// }
+
+function changePriority(priority, div) {
+  if(priority === 'top') {
+    div.classList.add('red');
+  } else if (priority === 'mid'){
+    div.classList.add('orange');
+  } else {
+    div.classList.add('green');
+  }
+}
+
+
+const detailsDiv = document.querySelector('.show-details');
+
+function showDetails(description) {
+  // const div1 = document.createElement('div');
+  detailsDiv.textContent = description;
+  detailsDiv.style.display = "flex";
+    // detailsDiv.appendChild(div1);
+}
+
+
 function displayTodos() {
   cleanHtml();
   todos.forEach( userTodo => {
     const grandpaDiv = document.createElement('div');
     grandpaDiv.classList.add('grandpa-todo');
-
     const fatherDiv = document.createElement('div');
     fatherDiv.classList.add('todos-side');
+    const motherDiv = document.createElement('div');
+    motherDiv.classList.add('buttons-side');
+
     const checklist = document.createElement('input');
     checklist.setAttribute('type', 'checkbox');
     checklist.classList.add('check');
@@ -48,25 +78,18 @@ function displayTodos() {
       fatherDiv.classList.toggle('line');
     });
     fatherDiv.appendChild(checklist);
-    const div0 = document.createElement('div');
-    div0.textContent = userTodo.title;
-    fatherDiv.appendChild(div0);
-    const div1 = document.createElement('div');
-    div1.textContent = userTodo.description;
-    fatherDiv.appendChild(div1);
-    const div2 = document.createElement('div');
-    div2.textContent = userTodo.dueDate;
-    fatherDiv.appendChild(div2);
-    if(userTodo.priority === 'top') {
-      grandpaDiv.classList.add('red');
-    } else if (userTodo.priority === 'mid'){
-      grandpaDiv.classList.add('orange');
-    } else {
-      grandpaDiv.classList.add('green');
-    }
 
-    const motherDiv = document.createElement('div');
-    motherDiv.classList.add('buttons-side');
+    const titleDiv = document.createElement('div');
+    titleDiv.textContent = userTodo.title;
+    fatherDiv.appendChild(titleDiv);
+    // 
+    const dueDateDiv = document.createElement('div');
+    dueDateDiv.textContent = userTodo.dueDate;
+    fatherDiv.appendChild(dueDateDiv);
+
+    const {priority} = userTodo;
+    changePriority(priority, grandpaDiv);
+
     const edite = document.createElement('button');
     edite.textContent = 'Edite'
     edite.classList.add('todo-buttons', 'edite');
@@ -81,15 +104,17 @@ function displayTodos() {
     motherDiv.appendChild(erase);
 
     edite.addEventListener('click', () => {
-      
+      edite();
     });
+    
+    const {description} = userTodo;
     details.addEventListener('click', () => {
-      
+      showDetails(description);
     });
+
+    const {id} = userTodo;
     erase.addEventListener('click', () => {
-      const index = todos.indexOf(userTodo.id);
-      todos.splice(index, 1);
-      console.log(todos);
+      deleteTodo(id);
     });
 
     grandpaDiv.appendChild(fatherDiv);
@@ -97,6 +122,7 @@ function displayTodos() {
     todosDiv.appendChild(grandpaDiv);
   })
 }
+
 
 // DOM for new todo pop up form
 const newTodo = document.querySelector(".new-todo");
@@ -121,7 +147,6 @@ function addTodo(e) {
   popUpForm.style.display = "none";
   displayTodos();
   form.reset();
-  console.log(todos);
 }
 
 newTodo.addEventListener("click", popUp);
@@ -134,11 +159,6 @@ addButton.addEventListener('click', addTodo);
 
 
 
-
-
-
-
-// // Changing todo priority
 
 
 // // Create new Project
