@@ -21,18 +21,14 @@
     </div>
     <div class="main-content">
       <div class="todos"></div>
-      <div class="pop-up-form">
+      <form action="" id="form" class="pop-up-form">
         <p>New Todo</p>
-
         <label for="title">Title</label>
         <input type="text" id="title" class="required" />
-
         <label for="description">Desciption</label>
         <textarea id="description" style="resize: none" rows="5" cols="5" size="40"></textarea>
-
         <label for="due-Date">Date</label>
         <input type="date" id="due-Date" class="required" />
-
         <fieldset>
           <legend>Priority</legend>
           <label for="top-priority">Top priority</label>
@@ -64,10 +60,9 @@
             style="accent-color: green"
           />
         </fieldset>
-
         <button class="pop-up-button add-todo">Add todo</button>
         <button class=" pop-up-button cancel-button">Close</button>
-      </div>
+      </form>
       <div class="new-todo">
         <p>New Todo</p>
         <button class="new-todo-button"></button>
