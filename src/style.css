@@ -44,6 +44,7 @@ body {
 .task-buttons {
   border: solid 2px white;
   padding: 5px;
+  margin: 15px;
 }
 
 .task-buttons:hover {
@@ -73,6 +74,7 @@ body {
 img {
   width: 75px;
   height: 75px;
+  margin: 10px;
 }
 
 img:hover {
@@ -105,6 +107,7 @@ img:hover {
   width: 100px;
   border-radius: 50%;
   border-style: none;
+  border: solid 2px black;
   background-image: url(/src/assets/plus.svg);
   background-size: contain;
 }
@@ -168,6 +171,7 @@ p {
   background-color: white;
   height: 8vh;
   margin: 30px;
+  overflow: auto;
 }
 
 .todos-side {
@@ -199,12 +203,12 @@ p {
   cursor: pointer;
 }
 
-.edite {
+.edit {
   border-color: #22c55e;
   color: #22c55e;
 }
 
-.edite:hover {
+.edit:hover {
   background-color: #22c55e;
 }
 
