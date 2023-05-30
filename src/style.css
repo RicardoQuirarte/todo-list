@@ -60,6 +60,15 @@ body {
   place-content: center;
 }
 
+.projects-list {
+  
+}
+
+.projects-list:hover {
+  color: black;
+  cursor: pointer;
+}
+
 .icons {
   width: 40px;
   height: 40px;
@@ -114,6 +123,7 @@ img:hover {
 
 .new-todo-button:hover {
   cursor: pointer;
+  border: solid 2px white;
 }
 
 p {
@@ -124,8 +134,8 @@ p {
 }
 
 .pop-up-form {
-  flex-direction: column;
   display: none;
+  flex-direction: column;
   position: fixed;
   bottom: 30vh;
   right: 35vw;
@@ -248,14 +258,71 @@ p {
 }
 
 .show-details {
-  flex-direction: column;
   display: none;
   position: fixed;
   bottom: 30vh;
   right: 35vw;
   padding: 10px;
   border-radius: 7px;
-  background-color: whitesmoke
+  background-color: whitesmoke;
+}
+
+.project-form {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  position: fixed;
+  bottom: 50vh;
+  left: 30vw;
+  padding: 20px;
+  border-radius: 7px;
+  background-color: #06b6d4;
+  color: white;
+  border: solid 2px white;
+  font-size: 18px;
+}
+
+.project-buttons{
+  border-style: none;
+  border-radius: 6px;
+  color: white;
+  border: solid 1px white;
+  font-size: 15px;
+  width: 80%;
+  height: 30px;
+}
+
+#project {
+  border-style: none;
+  border-radius: 5px;
+  margin-top: 10px;
+  height: 20px;
+}
+
+#project:focus {
+  border-style: none;
+  background-color: orange;
+  color: white;
+}
+
+.create {
+  background-color: #9ED368;
+  margin-top: 20px;
+}
+
+.create:hover {
+  background-color: #91dd45;
+  cursor: pointer;
+}
+
+.close {
+ background-color: #FC4D71;
+ margin-top: 5px;
+}
+
+.close:hover {
+  background-color: #ff1544;
+  cursor: pointer;
 }
 
 .footer {

@@ -11,8 +11,9 @@
   <body>
     <div class="header">Todo list</div>
     <div class="sidebar">
-      <div class="task-buttons">All tasks</div>
-      <div class="task-buttons">New Project</div>
+      <div class="task-buttons all-tasks">All tasks</div>
+      <div class="task-buttons new-project">New Project</div>
+      <div class="projects-div"></div>
       <div class="priority">
         <img src="./red.svg" alt="top-priority" title="Top-priority" />
         <img src="./yellow.svg" alt="mid-priority" title="Mid-priority" />
@@ -21,6 +22,7 @@
     </div>
     <div class="main-content">
       <div class="todos"></div>
+
       <form action="" id="form" class="pop-up-form">
         <p>New Todo</p>
         <label for="title">Title</label>
@@ -67,6 +69,12 @@
         <button class="new-todo-button"></button>
       </div>
       <div class="show-details"></div>
+      <form action="" class="project-form">
+        <label for="project">New project name</label>
+        <input type="text" id="project" class="required" />
+        <button class="project-buttons create">Create project</button>
+        <button class="project-buttons close">Close</button>
+      </form>
     </div>
     <pre
       class="footer"

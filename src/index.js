@@ -1,4 +1,3 @@
-import { check } from "prettier";
 import "./style.css";
 import { format } from 'date-fns'
 
@@ -53,7 +52,6 @@ function showDetails({ description }) {
   detailsDiv.style.display = "flex";
 }
 
-
 const form = document.querySelector('#form');
 const popUpForm = document.querySelector(".pop-up-form");
 
@@ -85,10 +83,9 @@ function editTodo(userTodo) {
   }
 }
 
-
-function displayTodos() {
+function displayTodos(array) {
   cleanHtml();
-  todos.forEach( userTodo => {
+  array.forEach( userTodo => {
     const grandpaDiv = document.createElement('div');
     grandpaDiv.classList.add('grandpa-todo');
     const fatherDiv = document.createElement('div');
@@ -143,9 +140,8 @@ function displayTodos() {
   })
 }
 
-
 // DOM for new todo pop up form
-const newTodo = document.querySelector(".new-todo");
+const newTodo = document.querySelector(".new-todo-button");
 
 const cancelButton = document.querySelector(".cancel-button");
 const addButton = document.querySelector('.add-todo');
@@ -164,16 +160,24 @@ function closePopUP(e) {
   edite = false;
 }
 
+
+let project = false;
+let userProject;
+
 function addTodo(e) {
   e.preventDefault();
   const userTodo = getTodoFromInput();
   if(edite) {
     editTodo(userTodo);
     edite = false;
+  } else if(project) {
+    userProject.push(userTodo);
+
+    displayTodos(userProject);
   } else {
    todos.push(userTodo);
+   displayTodos(todos);
   }
-  displayTodos();
   popUpForm.style.display = "none";
 }
 
@@ -184,15 +188,78 @@ addButton.addEventListener('click', addTodo);
 
 
 
+// Create new Project
+const projectButton = document.querySelector('.new-project');
+const projectForm = document.querySelector('.project-form');
+const create = document.querySelector('.create');
+const close = document.querySelector('.close');
+const projects = document.querySelector('.projects-div');
+const allTask = document.querySelector('.all-tasks');
+
+function openNewProject() {
+  projectForm.style.display = 'flex';
+}
+
+function closeForm(e) {
+  e.preventDefault();
+  projectForm.style.display = 'none';
+}
+
+function createProject(e) {
+  e.preventDefault();
+  const projectName = document.querySelector('#project').value;
+
+  const idProject = Date.now();
+  
+  userProject = [idProject]
+  todos.push(userProject);
+
+
+  projectForm.reset();
+  projectForm.style.display = 'none';
+  cleanHtml();
+  project = true;
+
+  const projectsDiv = document.createElement('div');
+  projectsDiv.classList.add('projects-list');
+  projectsDiv.textContent = projectName;
+  projects.appendChild(projectsDiv);
+
+  projectsDiv.addEventListener('click', () => {
+    project = true;
+
+    // const success = todos.filter(item => item[0] === idProject)
+    const indexx = todos.indexOf(idProject);
+
+    const indexxx = todos.findIndex((elem) => elem.includes(idProject))
+
+    // const result = todos.map(([idProject]) => idProject)
+
+    // const output = todos.filter(item => item[0].find())
+    // todos.forEach(item => item[0] = item.texts.filter(text => text[0] !== idProject));
+
+    displayTodos(todos[indexxx]);
+    console.log(todos);
+    console.log(indexx);
+    console.log(idProject);
+    console.log(indexxx);
+
+    // const indexProject = todos.findIndex(r => r.id.some(h => h.id === idProject));
+    // const indexxxx = todos.findIndex(usertodo => usertodo.id === idProject)
+
+  });
+}
+
+
+function displayAllTask() {
+  project = false;
+  const allTodos = todos.concat(userProject);
+  displayTodos(allTodos);
+}
 
 
 
-
-
-// // Create new Project
-// function createProject(project) {
-//     let (project) = [];
-//     (project).push(todos);
-
-//     return project;
-// }
+projectButton.addEventListener('click', openNewProject);
+close.addEventListener('click', closeForm);
+create.addEventListener('click', createProject);
+allTask.addEventListener('click', displayAllTask);
