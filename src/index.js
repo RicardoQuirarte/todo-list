@@ -32,7 +32,7 @@ function cleanHtml() {
 function deleteTodo({ id }) {
   todos = todos.filter(userTodo => userTodo.id !== id);
   cleanHtml();
-  displayTodos();
+  displayTodos(todos);
 }
 
 function changePriority(priority, div) {
@@ -163,6 +163,7 @@ function closePopUP(e) {
 
 let project = false;
 let userProject;
+let projectIndex;
 
 function addTodo(e) {
   e.preventDefault();
@@ -171,9 +172,8 @@ function addTodo(e) {
     editTodo(userTodo);
     edite = false;
   } else if(project) {
-    userProject.push(userTodo);
-
-    displayTodos(userProject);
+    todos[projectIndex].push(userTodo);
+    displayTodos(todos[projectIndex].slice(1));
   } else {
    todos.push(userTodo);
    displayTodos(todos);
@@ -208,56 +208,31 @@ function closeForm(e) {
 function createProject(e) {
   e.preventDefault();
   const projectName = document.querySelector('#project').value;
-
   const idProject = Date.now();
-  
   userProject = [idProject]
   todos.push(userProject);
-
-
   projectForm.reset();
   projectForm.style.display = 'none';
   cleanHtml();
   project = true;
+  projectIndex = todos.findIndex((elem) => elem.includes(idProject))
 
   const projectsDiv = document.createElement('div');
   projectsDiv.classList.add('projects-list');
   projectsDiv.textContent = projectName;
   projects.appendChild(projectsDiv);
-
   projectsDiv.addEventListener('click', () => {
     project = true;
-
-    // const success = todos.filter(item => item[0] === idProject)
-    const indexx = todos.indexOf(idProject);
-
-    const indexxx = todos.findIndex((elem) => elem.includes(idProject))
-
-    // const result = todos.map(([idProject]) => idProject)
-
-    // const output = todos.filter(item => item[0].find())
-    // todos.forEach(item => item[0] = item.texts.filter(text => text[0] !== idProject));
-
-    displayTodos(todos[indexxx]);
-    console.log(todos);
-    console.log(indexx);
-    console.log(idProject);
-    console.log(indexxx);
-
-    // const indexProject = todos.findIndex(r => r.id.some(h => h.id === idProject));
-    // const indexxxx = todos.findIndex(usertodo => usertodo.id === idProject)
-
+    projectIndex = todos.findIndex((elem) => elem.includes(idProject))
+    displayTodos(todos[projectIndex].slice(1));
   });
 }
-
 
 function displayAllTask() {
   project = false;
   const allTodos = todos.concat(userProject);
   displayTodos(allTodos);
 }
-
-
 
 projectButton.addEventListener('click', openNewProject);
 close.addEventListener('click', closeForm);
