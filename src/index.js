@@ -179,14 +179,12 @@ function addTodo(e) {
    displayTodos(todos);
   }
   popUpForm.style.display = "none";
+  console.log(todos);
 }
 
 newTodo.addEventListener("click", openPopUp);
 cancelButton.addEventListener("click", closePopUP);
 addButton.addEventListener('click', addTodo);
-
-
-
 
 // Create new Project
 const projectButton = document.querySelector('.new-project');
@@ -217,10 +215,12 @@ function createProject(e) {
   project = true;
   projectIndex = todos.findIndex((elem) => elem.includes(idProject))
 
+
   const projectsDiv = document.createElement('div');
   projectsDiv.classList.add('projects-list');
   projectsDiv.textContent = projectName;
   projects.appendChild(projectsDiv);
+
   projectsDiv.addEventListener('click', () => {
     project = true;
     projectIndex = todos.findIndex((elem) => elem.includes(idProject))
@@ -230,8 +230,10 @@ function createProject(e) {
 
 function displayAllTask() {
   project = false;
-  const allTodos = todos.concat(userProject);
-  displayTodos(allTodos);
+  const flat = todos.flat();
+  const allTodos = flat.filter(word => word.title);
+  console.log(allTodos);
+  displayTodos(allTodos); 
 }
 
 projectButton.addEventListener('click', openNewProject);
