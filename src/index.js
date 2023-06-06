@@ -15,13 +15,15 @@ function getTodoFromInput() {
   const date = document.querySelector('#due-date').value;
   const dueDate = format(new Date(`${date}T00:00`), 'dd/MMM/yy');
   const priority = document.querySelector('input[name="priority"]:checked').value;
+  const project = document.querySelector('.project-name').textContent;
   const id = Date.now();
 
-  return {title, description, date, dueDate, priority, id};
+  return {title, description, date, dueDate, priority, project, id};
 }
 
 // Display todos
 const todosDiv = document.querySelector('.todos');
+const displayName = document.querySelector('.project-name');
 
 function cleanHtml() {
   while(todosDiv.firstChild) {
@@ -31,8 +33,12 @@ function cleanHtml() {
 
 function deleteTodo({ id }) {
   todos = todos.filter(userTodo => userTodo.id !== id);
-  cleanHtml();
-  displayTodos(todos);
+  if(project) {
+    const projectArray = todos.filter(elem => elem.project === displayName.textContent); 
+    displayTodos(projectArray);
+  } else {
+    displayTodos(todos);
+  }
 }
 
 function changePriority(priority, div) {
@@ -160,26 +166,30 @@ function closePopUP(e) {
   edite = false;
 }
 
-
 let project = false;
-let userProject;
-let projectIndex;
+let defaultProject = true;
 
 function addTodo(e) {
   e.preventDefault();
   const userTodo = getTodoFromInput();
-  if(edite) {
+  if(edite && defaultProject) {
     editTodo(userTodo);
+    displayTodos(todos);
+    edite = false;
+  } else if(edite && project) {
+    editTodo(userTodo);
+    const projectArray = todos.filter(elem => elem.project === displayName.textContent); 
+    displayTodos(projectArray);
     edite = false;
   } else if(project) {
-    todos[projectIndex].push(userTodo);
-    displayTodos(todos[projectIndex].slice(1));
+    todos.push(userTodo);
+    const projectArray = todos.filter(elem => elem.project === displayName.textContent);
+    displayTodos(projectArray);
   } else {
-   todos.push(userTodo);
-   displayTodos(todos);
+    todos.push(userTodo);
+    displayTodos(todos);
   }
   popUpForm.style.display = "none";
-  console.log(todos);
 }
 
 newTodo.addEventListener("click", openPopUp);
@@ -193,6 +203,7 @@ const create = document.querySelector('.create');
 const close = document.querySelector('.close');
 const projects = document.querySelector('.projects-div');
 const allTask = document.querySelector('.all-tasks');
+const header = document.querySelector('.header');
 
 function openNewProject() {
   projectForm.style.display = 'flex';
@@ -205,35 +216,34 @@ function closeForm(e) {
 
 function createProject(e) {
   e.preventDefault();
-  const projectName = document.querySelector('#project').value;
-  const idProject = Date.now();
-  userProject = [idProject]
-  todos.push(userProject);
-  projectForm.reset();
-  projectForm.style.display = 'none';
   cleanHtml();
+  defaultProject = false;
   project = true;
-  projectIndex = todos.findIndex((elem) => elem.includes(idProject))
-
-
+  const projectName = document.querySelector('#project').value;
   const projectsDiv = document.createElement('div');
   projectsDiv.classList.add('projects-list');
-  projectsDiv.textContent = projectName;
   projects.appendChild(projectsDiv);
-
+  projectsDiv.textContent = projectName;
+  displayName.textContent = projectName;
+  header.textContent = projectName
+  projectForm.style.display = 'none';
+  projectForm.reset();
   projectsDiv.addEventListener('click', () => {
+    defaultProject = false;
     project = true;
-    projectIndex = todos.findIndex((elem) => elem.includes(idProject))
-    displayTodos(todos[projectIndex].slice(1));
+    displayName.textContent = projectName;
+    header.textContent = projectName
+    const projectArray = todos.filter(userTodo => userTodo.project === projectName);
+    displayTodos(projectArray);
   });
 }
 
 function displayAllTask() {
+  defaultProject = true;
   project = false;
-  const flat = todos.flat();
-  const allTodos = flat.filter(word => word.title);
-  console.log(allTodos);
-  displayTodos(allTodos); 
+  displayTodos(todos);
+  displayName.textContent = 'Default project'
+  header.textContent = 'Todo list'
 }
 
 projectButton.addEventListener('click', openNewProject);
