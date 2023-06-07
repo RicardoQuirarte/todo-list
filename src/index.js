@@ -31,6 +31,12 @@ function cleanHtml() {
   }
 }
 
+function sortArray() {
+  todos.sort((a, b) => new Date(a.date) - new Date(b.date));
+  const sortOrder = {top: 0, mid: 1, low: 2};
+  todos.sort((p1, p2) => sortOrder[p1.priority] - sortOrder[p2.priority]);
+}
+
 function deleteTodo({ id }) {
   todos = todos.filter(userTodo => userTodo.id !== id);
   if(project) {
@@ -51,12 +57,23 @@ function changePriority(priority, div) {
   }
 }
 
-const detailsDiv = document.querySelector('.show-details');
+const detailsDiv = document.querySelector('.show-details') ;
+const container = document.querySelector('.container');
 
 function showDetails({ description }) {
-  detailsDiv.textContent = description;
   detailsDiv.style.display = "flex";
+  while(container.firstChild) {
+    container.removeChild(container.firstChild);
+  }
+  const div = document.createElement('div');
+  div.textContent = description;
+  container.appendChild(div);
 }
+
+const closeButton = document.querySelector('img[alt="close-window"]');
+closeButton.addEventListener('click', () => {
+  detailsDiv.style.display = "none";
+});
 
 const form = document.querySelector('#form');
 const popUpForm = document.querySelector(".pop-up-form");
@@ -174,19 +191,23 @@ function addTodo(e) {
   const userTodo = getTodoFromInput();
   if(edite && defaultProject) {
     editTodo(userTodo);
+    sortArray();
     displayTodos(todos);
     edite = false;
   } else if(edite && project) {
     editTodo(userTodo);
-    const projectArray = todos.filter(elem => elem.project === displayName.textContent); 
+    sortArray();
+    const projectArray = todos.filter(elem => elem.project === displayName.textContent);
     displayTodos(projectArray);
     edite = false;
   } else if(project) {
     todos.push(userTodo);
+    sortArray();
     const projectArray = todos.filter(elem => elem.project === displayName.textContent);
     displayTodos(projectArray);
   } else {
     todos.push(userTodo);
+    sortArray();
     displayTodos(todos);
   }
   popUpForm.style.display = "none";
@@ -196,7 +217,10 @@ newTodo.addEventListener("click", openPopUp);
 cancelButton.addEventListener("click", closePopUP);
 addButton.addEventListener('click', addTodo);
 
-// Create new Project
+// Create and display new Projects
+const redButton = document.querySelector('img[alt="top-priority"]');
+const yellowButton = document.querySelector('img[alt="mid-priority"]');
+const greenButton = document.querySelector('img[alt="low-priority"]');
 const projectButton = document.querySelector('.new-project');
 const projectForm = document.querySelector('.project-form');
 const create = document.querySelector('.create');
@@ -232,7 +256,7 @@ function createProject(e) {
     defaultProject = false;
     project = true;
     displayName.textContent = projectName;
-    header.textContent = projectName
+    header.textContent = projectName;
     const projectArray = todos.filter(userTodo => userTodo.project === projectName);
     displayTodos(projectArray);
   });
@@ -241,12 +265,27 @@ function createProject(e) {
 function displayAllTask() {
   defaultProject = true;
   project = false;
-  displayTodos(todos);
   displayName.textContent = 'Default project'
   header.textContent = 'Todo list'
+  displayTodos(todos);
+}
+
+function priorityCheck(color){
+  const priorityArray = todos.filter(userTodo => userTodo.priority === color);
+  displayTodos(priorityArray);
 }
 
 projectButton.addEventListener('click', openNewProject);
 close.addEventListener('click', closeForm);
 create.addEventListener('click', createProject);
 allTask.addEventListener('click', displayAllTask);
+
+redButton.addEventListener('click', () => {
+  priorityCheck('top');
+});
+yellowButton.addEventListener('click', () => {
+  priorityCheck('mid');
+});
+greenButton.addEventListener('click', () => {
+  priorityCheck('low');
+});
