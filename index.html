@@ -13,7 +13,7 @@
     <div class="sidebar">
       <div class="task-buttons all-tasks">All tasks</div>
       <div class="task-buttons new-project">New Project</div>
-      <div class="projects-div"></div>
+      <div class="father-projects-div"></div>
       <div class="priority">
         <img src="./red.svg" alt="top-priority" title="Top-priority" />
         <img src="./yellow.svg" alt="mid-priority" title="Mid-priority" />
@@ -22,31 +22,36 @@
     </div>
     <div class="main-content">
       <div class="todos"></div>
-
-      <form action="" id="form" class="pop-up-form">
-        <p class="project-name">Default project</p>
+      <form id="form" class="pop-up-form" name="todo-form">
+        <p class="project-name">New Todo </p>
+        <label for="proyecto">Project</label>
+        <input type="text" id="proyecto" name="proyecto" list="projects" required/>
+        <datalist id="projects">
+          <option>Default</option>
+          <option>Escuela</option>
+          <option>Trabajo</option>
+        </datalist>
         <label for="title">Title</label>
-        <input type="text" id="title" class="required" />
+        <input type="text" id="title" name="title" required/>
         <label for="description">Desciption</label>
         <textarea id="description" placeholder="Optional" style="resize: none" rows="5" cols="5" size="40"></textarea>
         <label for="due-date">Date</label>
-        <input type="date" id="due-date" class="required" />
+        <input type="date" id="due-date" required/>
         <fieldset>
           <legend>Priority</legend>
           <label for="top-priority">Top priority</label>
           <input
             type="radio"
             id="top-priority"
-            class="required"
             name="priority"
             value="top"
             style="accent-color: red"
+            required
           />
           <label for="mid-priority">Mid priority</label>
           <input
             type="radio"
             id="mid-priority"
-            class="required"
             name="priority"
             value="mid"
             style="accent-color: orange"
@@ -55,13 +60,12 @@
           <input
             type="radio"
             id="low-priority"
-            class="required"
             name="priority"
             value="low"
             style="accent-color: green"
           />
         </fieldset>
-        <button class="pop-up-button add-todo">Add todo</button>
+        <button class="pop-up-button add-todo" type="submit">Add todo</button>
         <button class=" pop-up-button cancel-button">Close</button>
       </form>
       <div class="new-todo">
@@ -74,9 +78,9 @@
         <div class="container"></div>
       </div>
       <form action="" class="project-form">
-        <label for="project">New project name</label>
+        <label for="project">Project name</label>
         <input type="text" id="project" class="required" />
-        <button class="project-buttons create">Create project</button>
+        <button class="project-buttons create">Create Project</button>
         <button class="project-buttons close">Close</button>
       </form>
     </div>
