@@ -1,3 +1,10 @@
+:root {
+  --black-color: #0c0a09;
+  --white-color: #fafaf9;
+  --theme: #0284c7;
+  --main-color: #075985;
+}
+
 @font-face {
   font-family: "MyFont";
   src: url(./assets/Staatliches-Regular.ttf);
@@ -15,8 +22,8 @@ body {
   background: rgb(255, 255, 255);
   background: linear-gradient(
     241deg,
-    rgba(255, 255, 255, 1) 0%,
-    rgba(252, 70, 107, 1) 100%
+    var(--theme) 0%,
+    rgba(255, 255, 255, 1) 100%
   );
   height: 10vh;
   color: white;
@@ -24,6 +31,7 @@ body {
   display: grid;
   place-content: center;
   transition: all 1s ease-out;
+  border-bottom: solid 1px;
 }
 
 .header:hover {
@@ -31,27 +39,39 @@ body {
 }
 
 .sidebar {
-  background-color: brown;
-  color: white;
+  color: var(--white-color);
+  background-color: #0284c7;
   height: 90vh;
   font-size: 22px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-around;
+  justify-content: space-evenly;
+  border-right: solid 1px;
 }
 
 .task-buttons {
-  border: solid 2px white;
+  border: solid 2px var(--white-color);
   padding: 5px;
   margin: 15px;
 }
 
 .task-buttons:hover {
-  background-color: white;
-  border: solid 2px black;
-  color: black;
+  background-color: var(--black-color);
+  color: var(--white-color);
   cursor: pointer;
+}
+
+.father-projects-div {
+  display: flex;
+  flex-direction: column;
+}
+
+.project-div {
+  display: flex;
+  margin: 10px;
+  flex-wrap: wrap;
+  justify-content: space-between ;
 }
 
 .projects {
@@ -60,9 +80,44 @@ body {
   place-content: center;
 }
 
-.projects-list:hover {
-  color: black;
+.buttons-project {
+  display: flex;
+  flex-direction: row;
+  justify-self: flex-end;
+}
+
+.projct-buttons {
+  font-size: .75rem;
+  border-radius: 5%;
+  border: 1px solid var(--white-color);
+  display: grid;
+  place-content: center;
+  width: 40px;
+}
+
+.project-name {
+  margin-right: 10px;
+}
+
+.project-name:hover {
   cursor: pointer;
+  color: var(--black-color);
+}
+
+.project-delete {
+  margin-right: 5px;
+}
+
+.project-delete:hover {
+  cursor: pointer;
+  background-color: #ff1544;
+  color: var(--white-color);
+}
+
+.project-edit:hover {
+  cursor: pointer;
+  background-color: #22c55e;
+  color: var(--white-color);
 }
 
 .icons {
@@ -88,7 +143,7 @@ img:hover {
 }
 
 .main-content {
-  background-color: thistle;
+  background-color: var(--main-color);
   height: 90vh;
   overflow: auto;
 }
@@ -98,12 +153,13 @@ img:hover {
   position: fixed;
   bottom: 5vh;
   right: 5vw;
+  color: var(--white-color);
 }
 
 .new-todo:hover {
   border: solid 2px white;
   padding: 7px;
-  background-color: brown;
+  background-color: var(--theme);
   cursor: pointer;
   color: white;
 }
@@ -138,7 +194,7 @@ p {
   right: 39vw;
   padding: 10px;
   border-radius: 7px;
-  background-color: rgb(150, 50, 50);
+  background-color: var(--theme);
   color: white;
 }
 
@@ -175,17 +231,21 @@ p {
 .grandpa-todo {
   display: flex;
   justify-content: space-between;
-  background-color: white;
+  background-color: var(--white-color);
   height: 8vh;
   margin: 30px;
   overflow: auto;
+}
+
+.grandpa-todo:hover {
+  background-color: #bae6fd;
 }
 
 .todos-side {
   display: flex;
   justify-content: space-around;
   align-items: center;
-  width: 33%;
+  width: 66%;
 }
 
 .buttons-side {
@@ -201,7 +261,7 @@ p {
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 2px solid black;
+  border: 1.5px solid;
   background-color: white;
 }
 
@@ -239,15 +299,27 @@ p {
 }
 
 .red {
-  border: solid 2.5px #ef4444;
+  border: solid 2px #ef4444;
+}
+
+.red:hover {
+  background-color: #fee2e2;
 }
 
 .orange {
-  border: solid 2.5px #facc15;
+  border: solid 2px #eab308;
+}
+
+.orange:hover {
+  background-color: #fef9c3;
 }
 
 .green {
-  border: solid 2.5px #22c55e;
+  border: solid 2px #22c55e;
+}
+
+.green:hover {
+  background-color: #dcfce7;
 }
 
 .line {
@@ -264,7 +336,9 @@ p {
   background-color: whitesmoke;
   flex-direction: column;
   border: solid 2px;
-
+  width: 191px;
+  height: 147px;
+  overflow: scroll;
 }
 
 img[alt="close-window"] {
@@ -272,8 +346,8 @@ img[alt="close-window"] {
   height: 20px;
   margin: 0px;
   position: relative;
-  right: 19px;
-  bottom: 58px;
+  right: 8px;
+  bottom: 47px;
 }
 
 .container {
@@ -295,7 +369,7 @@ img[alt="close-window"] {
   left: 30vw;
   padding: 20px;
   border-radius: 7px;
-  background-color: #06b6d4;
+  background-color: var(--theme);
   color: white;
   border: solid 2px white;
   font-size: 18px;
@@ -351,7 +425,7 @@ img[alt="close-window"] {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #ef4444;
+  background-color: #cffafe;
   margin: 0;
 }
 

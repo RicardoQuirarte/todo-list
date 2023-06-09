@@ -1,21 +1,16 @@
 import "./style.css";
 import { format } from 'date-fns'
 
-// // Creating new todos
-// function  todoFactory(title, description, dueDate, priority) {
-//   return { title, description, dueDate, priority };
-// }
-
 let todos = [];
 
-// Get todo from input
+// Factory for todos
 function getTodoFromInput() {
   const title = document.querySelector('#title').value;
   const description = document.querySelector('#description').value;
   const date = document.querySelector('#due-date').value;
   const dueDate = format(new Date(`${date}T00:00`), 'dd/MMM/yy');
   const priority = document.querySelector('input[name="priority"]:checked').value;
-  const project = document.querySelector('.project-name').textContent;
+  const project = document.querySelector('#proyecto').value;
   const id = Date.now();
 
   return {title, description, date, dueDate, priority, project, id};
@@ -23,11 +18,11 @@ function getTodoFromInput() {
 
 // Display todos
 const todosDiv = document.querySelector('.todos');
-const displayName = document.querySelector('.project-name');
+const popUpNameProject = document.querySelector('.project-name');
 
-function cleanHtml() {
-  while(todosDiv.firstChild) {
-    todosDiv.removeChild(todosDiv.firstChild);
+function cleanHtml(div) {
+  while(div.firstChild) {
+    div.removeChild(div.firstChild);
   }
 }
 
@@ -39,8 +34,9 @@ function sortArray() {
 
 function deleteTodo({ id }) {
   todos = todos.filter(userTodo => userTodo.id !== id);
+  saveTodos();
   if(project) {
-    const projectArray = todos.filter(elem => elem.project === displayName.textContent); 
+    const projectArray = todos.filter(elem => elem.project === popUpNameProject.textContent); 
     displayTodos(projectArray);
   } else {
     displayTodos(todos);
@@ -62,9 +58,7 @@ const container = document.querySelector('.container');
 
 function showDetails({ description }) {
   detailsDiv.style.display = "flex";
-  while(container.firstChild) {
-    container.removeChild(container.firstChild);
-  }
+  cleanHtml(container);
   const div = document.createElement('div');
   div.textContent = description;
   container.appendChild(div);
@@ -87,18 +81,21 @@ function removeRadioButtons() {
 let index = '';
 let edite = false;
 
-function editButton({ title, description, date, priority, id }) {
-  popUpForm.style.display = "flex";
-  form.reset();
+function editButton({ title, description, date, priority, project, id }) {
+  edite = true;
   removeRadioButtons();
+  popUpForm.style.display = "flex";
+  index = todos.findIndex(usertodo => usertodo.id === id)
   form.querySelector('.add-todo').textContent = 'Edit Todo';
+  form.querySelector('#proyecto').value = project;
   form.querySelector('#title').value = title;
   form.querySelector('#description').value = description;
   form.querySelector('#due-date').value = date;
   form.querySelector(`input[name="priority"][value=${priority}]`).setAttribute('checked', '');
-  index = todos.findIndex(usertodo => usertodo.id === id)
-  edite = true;
+  popUpNameProject.textContent = project;
 }
+
+// Hasta aqui cheque que todo estuviera bien con la edicion de proyectos
 
 function editTodo(userTodo) {
   if (index !== -1) {
@@ -107,8 +104,8 @@ function editTodo(userTodo) {
 }
 
 function displayTodos(array) {
-  cleanHtml();
-  array.forEach( userTodo => {
+  cleanHtml(todosDiv);
+  array.forEach(userTodo => {
     const grandpaDiv = document.createElement('div');
     grandpaDiv.classList.add('grandpa-todo');
     const fatherDiv = document.createElement('div');
@@ -160,7 +157,7 @@ function displayTodos(array) {
     grandpaDiv.appendChild(fatherDiv);
     grandpaDiv.appendChild(motherDiv);
     todosDiv.appendChild(grandpaDiv);
-  })
+  });
 }
 
 // DOM for new todo pop up form
@@ -175,6 +172,7 @@ function openPopUp() {
   popUpForm.style.display = "flex";
   removeRadioButtons();
   form.reset();
+  edite = false;
 }
 
 function closePopUP(e) {
@@ -184,38 +182,39 @@ function closePopUP(e) {
 }
 
 let project = false;
-let defaultProject = true;
 
 function addTodo(e) {
   e.preventDefault();
   const userTodo = getTodoFromInput();
-  if(edite && defaultProject) {
+  if(edite && project) {
+    editTodo(userTodo);
+    sortArray();
+    const projectArray = todos.filter(elem => elem.project === popUpNameProject.textContent);
+    displayTodos(projectArray);
+    edite = false;
+  } else if(edite) {
     editTodo(userTodo);
     sortArray();
     displayTodos(todos);
     edite = false;
-  } else if(edite && project) {
-    editTodo(userTodo);
-    sortArray();
-    const projectArray = todos.filter(elem => elem.project === displayName.textContent);
-    displayTodos(projectArray);
-    edite = false;
   } else if(project) {
     todos.push(userTodo);
     sortArray();
-    const projectArray = todos.filter(elem => elem.project === displayName.textContent);
+    const projectArray = todos.filter(elem => elem.project === popUpNameProject.textContent);
     displayTodos(projectArray);
   } else {
     todos.push(userTodo);
     sortArray();
     displayTodos(todos);
   }
+  saveTodos();
   popUpForm.style.display = "none";
 }
 
 newTodo.addEventListener("click", openPopUp);
 cancelButton.addEventListener("click", closePopUP);
 addButton.addEventListener('click', addTodo);
+
 
 // Create and display new Projects
 const redButton = document.querySelector('img[alt="top-priority"]');
@@ -225,49 +224,128 @@ const projectButton = document.querySelector('.new-project');
 const projectForm = document.querySelector('.project-form');
 const create = document.querySelector('.create');
 const close = document.querySelector('.close');
-const projects = document.querySelector('.projects-div');
+const projects = document.querySelector('.father-projects-div');
 const allTask = document.querySelector('.all-tasks');
 const header = document.querySelector('.header');
 
-function openNewProject() {
+let projectsNames = [];
+let editeProject = false;
+let indexProject = '';
+
+function openProjectForm() {
   projectForm.style.display = 'flex';
+  document.querySelector('.create').textContent = 'Create Project'
+  projectForm.reset();
+  editeProject = false;
 }
 
-function closeForm(e) {
+function closeProjectForm(e) {
   e.preventDefault();
   projectForm.style.display = 'none';
+  projectForm.reset();
+  editeProject = false;
+  header.textContent = 'Todo list';
+}
+
+function deleteProject(projectName) {
+  projectsNames = projectsNames.filter(projectTitle => projectTitle !== projectName);
+  todos = todos.filter(elem => elem.project !== projectName);
+  displayAllTask();
+  displayProjects(projectsNames);
+  saveProjects();
+  saveTodos();
+}
+
+function editProject(projectName) {
+  editeProject = true;
+  projectForm.style.display = 'flex';
+  document.querySelector('#project').value = projectName;
+  document.querySelector('.create').textContent = 'Edit Project'
+  header.textContent = projectName
+  indexProject = projectsNames.findIndex(nameP => nameP === projectName)
+}
+
+function editProjectArray(userProject) {
+  if (indexProject !== -1) {
+    projectsNames[indexProject] = userProject;
+  }
+}
+ 
+function displayProjects(array) {
+  cleanHtml(projects);
+  array.forEach(userProject => {
+    const projectsDiv = document.createElement('div');
+    const buttonsDiv = document.createElement('div');
+    const projectName = document.createElement('div');
+    const projectDelete = document.createElement('div');
+    const projectEdit = document.createElement('div');
+    projectsDiv.classList.add('project-div');
+    buttonsDiv.classList.add('buttons-project');
+    projectName.classList.add('project-name');
+    projectDelete.classList.add('projct-buttons', 'project-delete');
+    projectEdit.classList.add('projct-buttons', 'project-edit');
+    projectName.textContent = userProject;
+    projectDelete.textContent = 'Delete';
+    projectEdit.textContent = 'Edit';
+    buttonsDiv.appendChild(projectDelete);
+    buttonsDiv.appendChild(projectEdit);
+    projectsDiv.appendChild(projectName);
+    projectsDiv.appendChild(buttonsDiv);
+    projects.appendChild(projectsDiv);
+    projectName.addEventListener('click', () => {
+      project = true;
+      popUpNameProject.textContent = userProject;
+      header.textContent = userProject;
+      const projectArray = todos.filter(userTodo => userTodo.project === userProject);
+      displayTodos(projectArray);
+    });
+    projectDelete.addEventListener('click', () => {
+      if(confirm('Deleting the project will also delete all the tasks it contains. Are you sure?')) {
+        deleteProject(userProject);
+      };
+    });
+    projectEdit.addEventListener('click', () => {
+      editProject(userProject);
+    });
+    });
 }
 
 function createProject(e) {
   e.preventDefault();
-  cleanHtml();
-  defaultProject = false;
-  project = true;
   const projectName = document.querySelector('#project').value;
-  const projectsDiv = document.createElement('div');
-  projectsDiv.classList.add('projects-list');
-  projects.appendChild(projectsDiv);
-  projectsDiv.textContent = projectName;
-  displayName.textContent = projectName;
+  project = true;
+  popUpNameProject.textContent = projectName;
   header.textContent = projectName
-  projectForm.style.display = 'none';
-  projectForm.reset();
-  projectsDiv.addEventListener('click', () => {
-    defaultProject = false;
-    project = true;
-    displayName.textContent = projectName;
-    header.textContent = projectName;
+  if(editeProject) {
+    todos.forEach(userTodo => {
+      if (userTodo.project === projectsNames[indexProject]) {
+        userTodo.project = projectName;
+       }      
+    })
+     editProjectArray(projectName);
     const projectArray = todos.filter(userTodo => userTodo.project === projectName);
     displayTodos(projectArray);
-  });
+    saveTodos();
+    console.log('editando');
+  } else {
+    projectsNames.push(projectName);
+    cleanHtml(todosDiv);
+  }
+  projectForm.reset();
+  projectForm.style.display = 'none';
+  displayProjects(projectsNames);
+  saveProjects();
 }
 
 function displayAllTask() {
-  defaultProject = true;
   project = false;
-  displayName.textContent = 'Default project'
-  header.textContent = 'Todo list'
+  popUpNameProject.textContent = 'Default project';
+  header.textContent = 'Todo list';
   displayTodos(todos);
+
+  console.log(todos);
+  console.log(projectsNames);
+  console.log(indexProject);
 }
 
 function priorityCheck(color){
@@ -275,8 +353,8 @@ function priorityCheck(color){
   displayTodos(priorityArray);
 }
 
-projectButton.addEventListener('click', openNewProject);
-close.addEventListener('click', closeForm);
+projectButton.addEventListener('click', openProjectForm);
+close.addEventListener('click', closeProjectForm);
 create.addEventListener('click', createProject);
 allTask.addEventListener('click', displayAllTask);
 
@@ -288,4 +366,25 @@ yellowButton.addEventListener('click', () => {
 });
 greenButton.addEventListener('click', () => {
   priorityCheck('low');
+});
+
+// Store data
+function saveTodos() {
+  const todosData = JSON.stringify(todos);
+  localStorage.setItem('todos', todosData);
+}
+
+function saveProjects() {
+  const projectsData = JSON.stringify(projectsNames);
+  localStorage.setItem('projects', projectsData);
+}
+
+window.addEventListener('load', () => {
+  if (localStorage.getItem("todos")) {
+    todos = JSON.parse(localStorage.getItem('todos'));
+    displayTodos(todos);
+  } if (localStorage.getItem('projects')) {
+    projectsNames = JSON.parse(localStorage.getItem('projects'))
+    displayProjects(projectsNames);
+  } 
 });
