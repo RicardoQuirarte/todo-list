@@ -48,6 +48,7 @@ body {
   align-items: center;
   justify-content: space-evenly;
   border-right: solid 1px;
+  overflow: auto;
 }
 
 .task-buttons {
@@ -71,7 +72,7 @@ body {
   display: flex;
   margin: 10px;
   flex-wrap: wrap;
-  justify-content: space-between ;
+  justify-content: space-between;
 }
 
 .projects {
@@ -87,7 +88,7 @@ body {
 }
 
 .projct-buttons {
-  font-size: .75rem;
+  font-size: 0.75rem;
   border-radius: 5%;
   border: 1px solid var(--white-color);
   display: grid;
@@ -190,7 +191,7 @@ p {
   display: none;
   flex-direction: column;
   position: fixed;
-  bottom: 31vh;
+  bottom: 23vh;
   right: 39vw;
   padding: 10px;
   border-radius: 7px;
@@ -213,7 +214,7 @@ p {
 }
 
 .add-todo {
-  background-color: #9ED368;
+  background-color: #9ed368;
 }
 
 .add-todo:hover {
@@ -221,7 +222,7 @@ p {
 }
 
 .cancel-button {
-  background-color: #FC4D71;
+  background-color: #fc4d71;
 }
 
 .cancel-button:hover {
@@ -284,7 +285,6 @@ p {
   color: #facc15;
 }
 
-
 .details:hover {
   background-color: #facc15;
 }
@@ -325,7 +325,7 @@ p {
 .line {
   text-decoration: line-through;
 }
- 
+
 .show-details {
   display: none;
   position: fixed;
@@ -375,7 +375,7 @@ img[alt="close-window"] {
   font-size: 18px;
 }
 
-.project-buttons{
+.project-buttons {
   border-style: none;
   border-radius: 6px;
   color: white;
@@ -399,7 +399,7 @@ img[alt="close-window"] {
 }
 
 .create {
-  background-color: #9ED368;
+  background-color: #9ed368;
   margin-top: 20px;
 }
 
@@ -409,8 +409,8 @@ img[alt="close-window"] {
 }
 
 .close {
- background-color: #FC4D71;
- margin-top: 5px;
+  background-color: #fc4d71;
+  margin-top: 5px;
 }
 
 .close:hover {
