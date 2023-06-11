@@ -175,7 +175,6 @@ function displayTodos(array) {
 
 // DOM for new todo pop up form
 const newTodo = document.querySelector(".new-todo-button");
-
 const cancelButton = document.querySelector(".cancel-button");
 const addButton = document.querySelector(".add-todo");
 
@@ -186,6 +185,7 @@ function openPopUp() {
   form.reset();
   edite = false;
   projectOptions();
+  proyecto.value = header.textContent
 }
 
 function closePopUP(e) {
@@ -199,11 +199,16 @@ let project = false;
 function addTodo(e) {
   e.preventDefault();
   const userTodo = getTodoFromInput();
+  if(proyecto.value !== 'Todo list') {
+    project = true;
+    popUpNameProject.textContent = userTodo.project;
+    header.textContent = userTodo.project;
+  }
   if (edite && project) {
     editTodo(userTodo);
     sortArray();
     const projectArray = todos.filter(
-      (elem) => elem.project === popUpNameProject.textContent
+      (elem) => elem.project === userTodo.project
     );
     displayTodos(projectArray);
     edite = false;
@@ -216,7 +221,7 @@ function addTodo(e) {
     todos.push(userTodo);
     sortArray();
     const projectArray = todos.filter(
-      (elem) => elem.project === popUpNameProject.textContent
+      (elem) => elem.project === userTodo.project
     );
     displayTodos(projectArray);
   } else {
@@ -226,6 +231,11 @@ function addTodo(e) {
   }
   saveTodos();
   popUpForm.style.display = "none";
+  if(projectsNames.indexOf(userTodo.project) === -1) {
+    projectsNames.push(userTodo.project)
+  } 
+  displayProjects(projectsNames);
+  saveProjects();
 }
 
 newTodo.addEventListener("click", openPopUp);
@@ -394,6 +404,7 @@ greenButton.addEventListener("click", () => {
 });
 
 const userProjects = document.querySelector("#projects");
+const proyecto = document.querySelector('#proyecto');
 
 function projectOptions() {
   cleanHtml(userProjects);
