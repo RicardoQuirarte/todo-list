@@ -1,32 +1,16 @@
 import "./style.css";
-import { format } from "date-fns";
+import removeRadioButtons from "./remove";
+import cleanHtml from "./clean";
+import changePriority from "./priority";
+import getTodoFromInput from "./factory";
+import showDetails from './dom'
 
 let todos = [];
-
-// Factory for todos
-function getTodoFromInput() {
-  const title = document.querySelector("#title").value;
-  const description = document.querySelector("#description").value;
-  const date = document.querySelector("#due-date").value;
-  const dueDate = format(new Date(`${date}T00:00`), "dd/MMM/yy");
-  const priority = document.querySelector(
-    'input[name="priority"]:checked'
-  ).value;
-  const project = document.querySelector("#proyecto").value;
-  const id = Date.now();
-
-  return { title, description, date, dueDate, priority, project, id };
-}
+let project = false;
 
 // Display todos
 const todosDiv = document.querySelector(".todos");
 const popUpNameProject = document.querySelector(".project-name");
-
-function cleanHtml(div) {
-  while (div.firstChild) {
-    div.removeChild(div.firstChild);
-  }
-}
 
 function sortArray() {
   todos.sort((a, b) => new Date(a.date) - new Date(b.date));
@@ -47,46 +31,10 @@ function deleteTodo({ id }) {
   }
 }
 
-function changePriority(priority, div) {
-  if (priority === "top") {
-    div.classList.add("red");
-  } else if (priority === "mid") {
-    div.classList.add("orange");
-  } else {
-    div.classList.add("green");
-  }
-}
-
-const detailsDiv = document.querySelector(".show-details");
-const container = document.querySelector(".container");
-
-function showDetails({ description }) {
-  detailsDiv.style.display = "flex";
-  cleanHtml(container);
-  const div = document.createElement("div");
-  div.textContent = description;
-  container.appendChild(div);
-}
-
-const closeButton = document.querySelector('img[alt="close-window"]');
-closeButton.addEventListener("click", () => {
-  detailsDiv.style.display = "none";
-});
-
-const form = document.querySelector("#form");
 const popUpForm = document.querySelector(".pop-up-form");
+const form = document.querySelector("#form");
+const proyecto = document.querySelector('#proyecto');
 
-function removeRadioButtons() {
-  form
-    .querySelector('input[name="priority"][value="top"]')
-    .removeAttribute("checked");
-  form
-    .querySelector('input[name="priority"][value="mid"]')
-    .removeAttribute("checked");
-  form
-    .querySelector('input[name="priority"][value="low"]')
-    .removeAttribute("checked");
-}
 
 let index = "";
 let edite = false;
@@ -108,8 +56,6 @@ function editButton({ title, description, date, priority, project, id }) {
   projectOptions();
 }
 
-// Hasta aqui cheque que todo estuviera bien con la edicion de proyectos
-
 function editTodo(userTodo) {
   if (index !== -1) {
     todos[index] = userTodo;
@@ -125,7 +71,6 @@ function displayTodos(array) {
     fatherDiv.classList.add("todos-side");
     const motherDiv = document.createElement("div");
     motherDiv.classList.add("buttons-side");
-
     const checklist = document.createElement("input");
     checklist.setAttribute("type", "checkbox");
     checklist.classList.add("check");
@@ -133,17 +78,14 @@ function displayTodos(array) {
       fatherDiv.classList.toggle("line");
     });
     fatherDiv.appendChild(checklist);
-
     const titleDiv = document.createElement("div");
     titleDiv.textContent = userTodo.title;
     fatherDiv.appendChild(titleDiv);
     const dueDateDiv = document.createElement("div");
     dueDateDiv.textContent = userTodo.dueDate;
     fatherDiv.appendChild(dueDateDiv);
-
     const { priority } = userTodo;
     changePriority(priority, grandpaDiv);
-
     const edit = document.createElement("button");
     edit.textContent = "Edit";
     edit.classList.add("todo-buttons", "edit");
@@ -156,7 +98,6 @@ function displayTodos(array) {
     erase.textContent = "Delete";
     erase.classList.add("todo-buttons", "delete");
     motherDiv.appendChild(erase);
-
     edit.addEventListener("click", () => {
       editButton(userTodo);
     });
@@ -166,7 +107,6 @@ function displayTodos(array) {
     erase.addEventListener("click", () => {
       deleteTodo(userTodo);
     });
-
     grandpaDiv.appendChild(fatherDiv);
     grandpaDiv.appendChild(motherDiv);
     todosDiv.appendChild(grandpaDiv);
@@ -177,6 +117,7 @@ function displayTodos(array) {
 const newTodo = document.querySelector(".new-todo-button");
 const cancelButton = document.querySelector(".cancel-button");
 const addButton = document.querySelector(".add-todo");
+const header = document.querySelector(".header");
 
 function openPopUp() {
   form.querySelector(".add-todo").textContent = "Add todo";
@@ -193,8 +134,6 @@ function closePopUP(e) {
   popUpForm.style.display = "none";
   edite = false;
 }
-
-let project = false;
 
 function addTodo(e) {
   e.preventDefault();
@@ -252,7 +191,6 @@ const create = document.querySelector(".create");
 const close = document.querySelector(".close");
 const projects = document.querySelector(".father-projects-div");
 const allTask = document.querySelector(".all-tasks");
-const header = document.querySelector(".header");
 
 let projectsNames = [];
 let editeProject = false;
@@ -362,7 +300,6 @@ function createProject(e) {
     );
     displayTodos(projectArray);
     saveTodos();
-    console.log("editando");
   } else {
     projectsNames.push(projectName);
     const projectArray = todos.filter(
@@ -404,7 +341,6 @@ greenButton.addEventListener("click", () => {
 });
 
 const userProjects = document.querySelector("#projects");
-const proyecto = document.querySelector('#proyecto');
 
 function projectOptions() {
   cleanHtml(userProjects);
